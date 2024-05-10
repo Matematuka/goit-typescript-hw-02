@@ -1,0 +1,26 @@
+.formSearch {
+  border-radius: 4px;
+  border: 1px solid #000;
+  margin-right: 10px;
+  outline: none;
+  padding: 4px 8px;
+}
+
+.formSearch:hover,
+.formSearch:focus {
+  border: 2px solid #387ce1;
+}
+
+.formBtn {
+  border: 1px solid #387ce1;
+  border-radius: 4px;
+  background-color: #387ce1;
+  color: #fff;
+  padding: 4px 8px;
+}
+
+.formBtn:hover,
+.formBtn:focus {
+  border: 2px solid #387ce1;
+  cursor: pointer;
+}

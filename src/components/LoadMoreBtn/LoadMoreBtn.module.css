@@ -1,0 +1,13 @@
+.loadMoreBtn {
+  border: 1px solid #387ce1;
+  border-radius: 4px;
+  background-color: #387ce1;
+  color: #fff;
+  padding: 4px 8px;
+}
+
+.loadMoreBtn:hover,
+.loadMoreBtn:focus {
+  border: 2px solid #387ce1;
+  cursor: pointer;
+}
