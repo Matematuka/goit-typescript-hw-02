@@ -1,9 +1,22 @@
-import css from "./ImageCard.module.css"
+import css from "./ImageCard.module.css";
 
-const ImageCard = ({ alt_description, small, id, openModal }) => {
+interface ImageCardProps {
+  id: string;
+  alt_description: string;
+  small: string;
+  openModal: (id: string) => void;
+}
+
+const ImageCard = ({
+  alt_description,
+  small,
+  id,
+  openModal,
+}: ImageCardProps) => {
   return (
     <div>
-      <img className={css.img}
+      <img
+        className={css.img}
         id={id}
         src={small}
         alt={alt_description}

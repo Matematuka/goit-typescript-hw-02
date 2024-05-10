@@ -1,6 +1,7 @@
 import { Formik, Field, Form } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
+import { SearchValue } from "./SearchBar.types";
 
 const notify = () =>
   toast("This field cannot be empty. Please enter a search query", {
@@ -13,11 +14,15 @@ const notify = () =>
     },
   });
 
+interface SearchBarProps {
+  onSubmit: (value: string) => void;
+}
+
 const FORM_INITIAL_VALUES = {
   searchTerm: "",
 };
-const SearchBar = ({ onSubmit }) => {
-  const handleSubmit = (values) => {
+const SearchBar = ({ onSubmit }: SearchBarProps) => {
+  const handleSubmit = (values: SearchValue) => {
     if (values.searchTerm !== "") {
       onSubmit(values.searchTerm);
     } else {

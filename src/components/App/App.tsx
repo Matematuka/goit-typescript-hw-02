@@ -2,14 +2,15 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 import toast from "react-hot-toast";
-import SearchBar from "./components/SearchBar/SearchBar.jsx";
-import Loader from "./components/Loader/Loader.jsx";
-import ErrorMessage from "./components/ErrorMessage/ErrorMessage.jsx";
-import ImageGallery from "./components/ImageGallery/ImageGallery.jsx";
-import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn.jsx";
-import ImageModal from "./components/ImageModal/ImageModal.jsx";
-import { initModImg, pagination } from "./var/inits.js";
-import { fetchImagesSearch } from "./services/api.js";
+import SearchBar from "../SearchBar/SearchBar.js";
+import Loader from "../Loader/Loader.js";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.js";
+import ImageGallery from "../ImageGallery/ImageGallery.js";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn.js";
+import ImageModal from "../ImageModal/ImageModal.js";
+import { initModImg, pagination } from "../../var/inits.js";
+import { fetchImagesSearch } from "../../services/api.js";
+import { Photo, ModImg } from "./App.types.js";
 
 const message = () =>
   toast("There are no images. Please enter another request", {
@@ -23,17 +24,17 @@ const message = () =>
   });
 
 function App() {
-  const [photos, setPhotos] = useState([]);
-  const [query, setQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [imageModal, setImageModal] = useState(initModImg);
-  const [maxPage, setMaxPage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [imageModal, setImageModal] = useState<ModImg | undefined>(initModImg);
+  const [maxPage, setMaxPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const listRef = useRef(null);
-  const scrollHeight = useRef(0);
+  const listRef = useRef<HTMLUListElement>(null);
+  const scrollHeight = useRef<number>(0);
 
   useEffect(() => {
     if (!listRef.current) return;
@@ -44,9 +45,9 @@ function App() {
     scrollHeight.current = listRef.current.clientHeight;
   }, [photos]);
 
-  const loadMore = () => setCurrentPage((prev) => prev + 1);
+  const loadMore = (): void => setCurrentPage((prev) => prev + 1);
 
-  const handleModal = (id) => {
+  const handleModal = (id: string): void => {
     {
       setImageModal(
         photos.find((photo) => {
@@ -56,7 +57,7 @@ function App() {
       setModalIsOpen(true);
     }
   };
-  const onSearchQuery = (searchTerm) => {
+  const onSearchQuery = (searchTerm: string): void => {
     if (query !== searchTerm) {
       setPhotos([]);
       setCurrentPage(1);
@@ -93,7 +94,9 @@ function App() {
       <SearchBar onSubmit={onSearchQuery} />
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
-      <ImageGallery photos={photos} openModal={handleModal} ref={listRef} />
+      {photos.length !== 0 && (
+        <ImageGallery photos={photos} openModal={handleModal} ref={listRef} />
+      )}
       {photos.length !== 0 && currentPage < maxPage && (
         <LoadMoreBtn onLoadMore={loadMore} />
       )}
